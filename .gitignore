@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test output
+coverage/
+
+# macOS files
+.DS_Store
+
+# Private user uploads
+uploads/private/photo-ids/*
+!uploads/private/photo-ids/.gitkeep
+
+uploads/private/lost-items/*
+!uploads/private/lost-items/.gitkeep

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create account | CampusFind</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="campusfind-brand" href="/"><img class="campusfind-icon" src="/assets/images/campusfind-logo.svg" alt=""><div><h1>CampusFind</h1><p class="brand-subtitle">Campus lost-and-found portal</p></div></a>
+    <div class="header-actions"><a href="/login.html" class="admin-link">Log in</a><div class="contact-pill">306-585-4407</div><button class="theme-toggle" type="button" data-theme-toggle><span aria-hidden="true">◐</span></button></div>
+  </header>
+  <main id="main-content"><section class="shell auth-shell"><div class="card section-card auth-card narrow-card">
+    <p class="eyebrow">Create account</p><h2>Sign up for CampusFind</h2><p>Create an account before submitting a lost-item report.</p>
+    <form class="form-grid auth-panel single-panel" id="signup-form" enctype="multipart/form-data">
+      <label><span>Full name</span><input type="text" name="fullName" autocomplete="name" minlength="2" maxlength="120" required></label>
+      <label><span>Email</span><input type="email" name="email" autocomplete="email" required></label>
+      <label><span>Password</span><input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+      <label><span>Phone number</span><input type="tel" name="phone" autocomplete="tel" placeholder="306-000-0000" minlength="10" required></label>
+      <label><span>Photo ID file (optional)</span><input type="file" name="file" accept=".jpg,.jpeg,.png,.pdf"></label>
+      <p class="form-hint">Maximum 5 MB. For a public class demo, use a non-sensitive sample file rather than real government ID.</p>
+      <button type="submit" class="btn btn-secondary full">Create account</button>
+      <p class="switch-auth">Already registered? <a href="/login.html">Log in</a></p>
+    </form>
+  </div></section></main>
+  <footer class="site-footer shell"><div><h3>CampusFind</h3><p>School project prototype</p></div><div class="footer-contact"><p><a href="/">Back to homepage</a></p></div></footer>
+  <script src="/assets/js/theme.js" defer></script><script type="module" src="/assets/js/auth.js"></script>
+</body>
+</html>
