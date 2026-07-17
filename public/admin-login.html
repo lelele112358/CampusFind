@@ -1,33 +1,79 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
-<head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin login | CampusFind</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css">
-</head>
-<body>
-  <div class="official-brand">
-        <img src="https://www.uregina.ca/communications-marketing/assets/visual-identity/Primary_Logo/Full%20Colour/primary-logo-680x270.jpg"
-             alt="University of Regina logo" class="uofr-logo" />
-      </div>
-  <header class="site-header"><a class="campusfind-brand" href="/"><img class="campusfind-icon" src="/assets/images/campusfind-logo.svg" alt=""><div><h1>CampusFind</h1><p class="brand-subtitle">Protective Services portal</p></div></a><div class="header-actions"><a href="/" class="admin-link">Back to public site</a><div class="contact-pill">306-585-4407</div><button class="theme-toggle" type="button" data-theme-toggle><span aria-hidden="true">◐</span></button></div></header>
-  <main id="main-content"><section class="shell admin-shell"><div class="card admin-card">
-    <p class="eyebrow">Authorized staff only</p><h2>Admin login</h2><p>Administrator accounts are created internally through the server-side admin script.</p>
-    <div class="admin-grid admin-top-grid">
-      <form id="admin-login-form" class="form-grid auth-panel admin-login-panel">
-        <h3>Sign in</h3>
-        <label><span>Email</span><input type="email" name="email" autocomplete="username" placeholder="staff@uregina.ca" required></label>
-        <label><span>Password</span><input type="password" name="password" autocomplete="current-password" minlength="8" required></label>
-        <button type="submit" class="btn btn-secondary full">Admin log in</button>
-        <div class="inline-note">Public signup can never create an administrator account.</div>
-      </form>
-      <article class="admin-feature"><div class="feature-icon" aria-hidden="true">📦</div><h3>Record delivered items</h3><p>Staff enter an item only after it has been physically received.</p></article>
-      <article class="admin-feature"><div class="feature-icon" aria-hidden="true">🔒</div><h3>Protect private details</h3><p>Verification notes remain restricted to authorized staff.</p></article>
+<html data-theme="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Admin login | CampusFind</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+    <link href="/assets/css/logo-fixes.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="official-brand official-brand-top">
+      <a aria-label="CampusFind homepage" href="/">
+        <img alt="University of Regina logo" class="uofr-logo" src="/assets/images/uofr-logo.jpg" />
+      </a>
     </div>
-  </div></section></main>
-  <footer class="site-footer shell"><div><h3>CampusFind Admin</h3><p>School project prototype</p></div></footer>
-  <script src="/assets/js/theme.js" defer></script><script type="module" src="/assets/js/auth.js"></script>
-</body>
+    <header class="site-header">
+      <a class="campusfind-brand" href="/">
+        <img alt="" class="campusfind-icon" src="/assets/images/campusfind-logo.svg" />
+        <div>
+          <h1>CampusFind</h1>
+          <p class="brand-subtitle">Protective Services portal</p>
+        </div>
+      </a>
+      <div class="header-actions">
+        <a class="admin-link" href="/">Back to public site</a>
+        <div class="contact-pill">306-585-4407</div>
+        <button class="theme-toggle" data-theme-toggle="" type="button">
+          <span aria-hidden="true">◐</span>
+        </button>
+      </div>
+    </header>
+    <main id="main-content">
+      <section class="shell admin-shell">
+        <div class="card admin-card">
+          <p class="eyebrow">Authorized staff only</p>
+          <h2>Admin login</h2>
+          <p>Administrator accounts are created internally through the server-side admin script.</p>
+          <div class="admin-grid admin-top-grid">
+            <form class="form-grid auth-panel admin-login-panel" id="admin-login-form">
+              <h3>Sign in</h3>
+              <label>
+                <span>Email</span>
+                <input autocomplete="username" name="email" placeholder="staff@uregina.ca" required="" type="email" />
+              </label>
+              <label>
+                <span>Password</span>
+                <input autocomplete="current-password" minlength="8" name="password" required="" type="password" />
+              </label>
+              <button class="btn btn-secondary full" type="submit">Admin log in</button>
+              <div class="inline-note">Public signup can never create an administrator account.</div>
+            </form>
+            <article class="admin-feature">
+              <div aria-hidden="true" class="feature-icon"></div>
+              <h3>Record delivered items</h3>
+              <p>Staff enter an item only after it has been physically received.</p>
+            </article>
+            <article class="admin-feature">
+              <div aria-hidden="true" class="feature-icon"></div>
+              <h3>Protect private details</h3>
+              <p>Verification notes remain restricted to authorized staff.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer shell">
+      <div class="footer-brand">
+        <img alt="University of Regina Protective Services logo" class="ps-logo" src="/assets/images/protectiveservice-logo.png" />
+        <h3>CampusFind Admin</h3>
+        <p>School project prototype</p>
+      </div>
+    </footer>
+    <script defer="" src="/assets/js/theme.js"></script>
+    <script src="/assets/js/auth.js" type="module"></script>
+  </body>
 </html>

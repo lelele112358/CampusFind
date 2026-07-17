@@ -1,31 +1,72 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
-<head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Log in | CampusFind</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css">
-</head>
-<body>
-  <div class="official-brand">
-        <img src="https://www.uregina.ca/communications-marketing/assets/visual-identity/Primary_Logo/Full%20Colour/primary-logo-680x270.jpg"
-             alt="University of Regina logo" class="uofr-logo" />
+<html data-theme="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Log in | CampusFind</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+    <link href="/assets/css/styles.css" rel="stylesheet" />
+    <link href="/assets/css/logo-fixes.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="official-brand official-brand-top">
+      <a aria-label="CampusFind homepage" href="/">
+        <img alt="University of Regina logo" class="uofr-logo" src="/assets/images/uofr-logo.jpg" />
+      </a>
+    </div>
+    <header class="site-header">
+      <a class="campusfind-brand" href="/">
+        <img alt="" class="campusfind-icon" src="/assets/images/campusfind-logo.svg" />
+        <div>
+          <h1>CampusFind</h1>
+          <p class="brand-subtitle">Campus lost-and-found portal</p>
+        </div>
+      </a>
+      <div class="header-actions">
+        <a class="admin-link" href="/admin-login.html">Admin login</a>
+        <div class="contact-pill">306-585-4407</div>
+        <button class="theme-toggle" data-theme-toggle="" type="button">
+          <span aria-hidden="true">◐</span>
+        </button>
       </div>
-  <header class="site-header">
-    <a class="campusfind-brand" href="/"><img class="campusfind-icon" src="/assets/images/campusfind-logo.svg" alt=""><div><h1>CampusFind</h1><p class="brand-subtitle">Campus lost-and-found portal</p></div></a>
-    <div class="header-actions"><a href="/admin-login.html" class="admin-link">Admin login</a><div class="contact-pill">306-585-4407</div><button class="theme-toggle" type="button" data-theme-toggle><span aria-hidden="true">◐</span></button></div>
-  </header>
-  <main id="main-content"><section class="shell auth-shell"><div class="card section-card auth-card narrow-card">
-    <p class="eyebrow">User login</p><h2>Log in to report a lost item</h2><p>Use your account to submit a report and view your recent requests.</p>
-    <form class="form-grid auth-panel single-panel" id="login-form" novalidate>
-      <label><span>Email</span><input type="email" name="email" autocomplete="email" placeholder="name@example.com" required></label>
-      <label><span>Password</span><input type="password" name="password" autocomplete="current-password" minlength="8" required></label>
-      <button type="submit" class="btn btn-primary full">Log in</button>
-      <p class="switch-auth">No account? <a href="/signup.html">Create one</a></p>
-    </form>
-  </div></section></main>
-  <footer class="site-footer shell"><div><h3>CampusFind</h3><p>School project prototype</p></div><div class="footer-contact"><p><a href="/">Back to homepage</a></p></div></footer>
-  <script src="/assets/js/theme.js" defer></script><script type="module" src="/assets/js/auth.js"></script>
-</body>
+    </header>
+    <main id="main-content">
+      <section class="shell auth-shell">
+        <div class="card section-card auth-card narrow-card">
+          <p class="eyebrow">User login</p>
+          <h2>Log in to report a lost item</h2>
+          <p>Use your account to submit a report and view your recent requests.</p>
+          <form class="form-grid auth-panel single-panel" id="login-form" novalidate="">
+            <label>
+              <span>Email</span>
+              <input autocomplete="email" name="email" placeholder="name@example.com" required="" type="email" />
+            </label>
+            <label>
+              <span>Password</span>
+              <input autocomplete="current-password" minlength="8" name="password" required="" type="password" />
+            </label>
+            <button class="btn btn-primary full" type="submit">Log in</button>
+            <p class="switch-auth">No account? <a href="/signup.html">Create one</a>
+            </p>
+          </form>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer shell">
+      <div class="footer-brand">
+        <img alt="University of Regina Protective Services logo" class="ps-logo" src="/assets/images/protectiveservice-logo.png" />
+        <h3>CampusFind</h3>
+        <p>School project prototype</p>
+      </div>
+      <div class="footer-contact">
+        <p>
+          <a href="/">Back to homepage</a>
+        </p>
+      </div>
+    </footer>
+    <script defer="" src="/assets/js/theme.js"></script>
+    <script src="/assets/js/auth.js" type="module"></script>
+  </body>
 </html>
