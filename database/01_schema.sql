@@ -76,15 +76,41 @@ CREATE TABLE IF NOT EXISTS item_matches (
   status VARCHAR(20) NOT NULL DEFAULT 'Pending Review'
     CHECK (status IN ('Pending Review', 'Confirmed', 'Rejected')),
   reviewed_by_admin_id UUID REFERENCES users(id) ON DELETE SET NULL,
+  notification_status VARCHAR(16) NOT NULL DEFAULT 'Not Sent'
+    CHECK (notification_status IN ('Not Sent', 'Sent', 'Skipped', 'Failed')),
+  notification_attempted_at TIMESTAMPTZ,
+  notification_sent_at TIMESTAMPTZ,
+  notification_error VARCHAR(500),
+  email_provider_id VARCHAR(255),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   UNIQUE (lost_report_id, found_item_id)
 );
 
+
+-- Add notification columns when upgrading an existing CampusFind database.
+ALTER TABLE item_matches ADD COLUMN IF NOT EXISTS notification_status VARCHAR(16) NOT NULL DEFAULT 'Not Sent';
+ALTER TABLE item_matches ADD COLUMN IF NOT EXISTS notification_attempted_at TIMESTAMPTZ;
+ALTER TABLE item_matches ADD COLUMN IF NOT EXISTS notification_sent_at TIMESTAMPTZ;
+ALTER TABLE item_matches ADD COLUMN IF NOT EXISTS notification_error VARCHAR(500);
+ALTER TABLE item_matches ADD COLUMN IF NOT EXISTS email_provider_id VARCHAR(255);
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint WHERE conname = 'item_matches_notification_status_check'
+  ) THEN
+    ALTER TABLE item_matches
+      ADD CONSTRAINT item_matches_notification_status_check
+      CHECK (notification_status IN ('Not Sent', 'Sent', 'Skipped', 'Failed'));
+  END IF;
+END $$;
+
 CREATE INDEX IF NOT EXISTS idx_item_matches_status ON item_matches(status);
 CREATE INDEX IF NOT EXISTS idx_item_matches_lost_report ON item_matches(lost_report_id);
 CREATE INDEX IF NOT EXISTS idx_item_matches_found_item ON item_matches(found_item_id);
 CREATE INDEX IF NOT EXISTS idx_item_matches_score ON item_matches(score DESC);
+CREATE INDEX IF NOT EXISTS idx_item_matches_notification_status ON item_matches(notification_status);
 
 CREATE TABLE IF NOT EXISTS release_logs (
   id UUID PRIMARY KEY,

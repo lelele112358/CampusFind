@@ -31,7 +31,10 @@ form?.addEventListener('submit', async (event) => {
       dropOffLocation: form.elements.dropOffLocation.value,
       privateVerificationNotes: form.elements.privateVerificationNotes.value
     });
-    showMessage(form, `Item saved. ${data.matchesCreated} possible match(es) created.`, 'success');
+    const emailSummary = data.emailFailures
+      ? `${data.emailsSent} email(s) sent; ${data.emailFailures} failed.`
+      : `${data.emailsSent} email notification(s) sent.`;
+    showMessage(form, `Item saved. ${data.matchesCreated} possible match(es) created. ${emailSummary}`, 'success');
     form.reset();
     form.elements.dateFound.valueAsDate = new Date();
     await loadDashboard();
@@ -87,7 +90,9 @@ function renderMatches(matches) {
     }
     const status = document.createElement('span');
     status.textContent = `Review status: ${match.status}`;
-    item.append(title, meta, location, status, actions);
+    const emailStatus = document.createElement('span');
+    emailStatus.textContent = `Email notification: ${match.notificationStatus || 'Not Sent'}`;
+    item.append(title, meta, location, status, emailStatus, actions);
     matchList.appendChild(item);
   }
 }

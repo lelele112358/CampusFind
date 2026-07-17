@@ -33,6 +33,8 @@ SELECT
   m.score,
   m.similarity,
   m.status,
+  m.notification_status,
+  m.notification_sent_at,
   lr.reference_number,
   lr.item_name,
   lr.last_known_location,
@@ -50,3 +52,18 @@ FROM found_items
 WHERE status = 'In Holding'
   AND hold_until < NOW()
 ORDER BY hold_until;
+
+
+-- Email notification audit:
+SELECT
+  m.id,
+  m.score,
+  m.notification_status,
+  m.notification_attempted_at,
+  m.notification_sent_at,
+  m.notification_error,
+  lr.reference_number,
+  lr.email
+FROM item_matches AS m
+JOIN lost_reports AS lr ON lr.id = m.lost_report_id
+ORDER BY m.created_at DESC;

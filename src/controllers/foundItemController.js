@@ -36,7 +36,9 @@ const createFoundItem = asyncHandler(async (req, res) => {
     holdUntil
   });
 
-  const possibleMatches = await createPossibleMatches(foundItem);
+  const matchResult = await createPossibleMatches(foundItem);
+  const emailsSent = matchResult.notifications.filter((item) => item.status === 'sent').length;
+  const emailFailures = matchResult.notifications.filter((item) => item.status === 'failed').length;
 
   res.status(201).json({
     message: 'Found item saved.',
@@ -46,7 +48,9 @@ const createFoundItem = asyncHandler(async (req, res) => {
       status: foundItem.status,
       holdUntil: foundItem.holdUntil
     },
-    matchesCreated: possibleMatches.length
+    matchesCreated: matchResult.matches.length,
+    emailsSent,
+    emailFailures
   });
 });
 

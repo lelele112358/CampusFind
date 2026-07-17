@@ -14,13 +14,19 @@ function mapMatch(row) {
     similarity: row.similarity,
     status: row.status,
     reviewedByAdminId: row.reviewed_by_admin_id,
+    notificationStatus: row.notification_status,
+    notificationAttemptedAt: row.notification_attempted_at,
+    notificationSentAt: row.notification_sent_at,
+    notificationError: row.notification_error,
+    emailProviderId: row.email_provider_id,
     createdAt: row.created_at,
     updatedAt: row.updated_at
   };
 }
 
 const columns = `id, lost_report_id, found_item_id, score, similarity, status,
-  reviewed_by_admin_id, created_at, updated_at`;
+  reviewed_by_admin_id, notification_status, notification_attempted_at,
+  notification_sent_at, notification_error, email_provider_id, created_at, updated_at`;
 
 async function insertCandidate(data, executor = { query }) {
   const id = crypto.randomUUID();
@@ -31,6 +37,51 @@ async function insertCandidate(data, executor = { query }) {
      ON CONFLICT (lost_report_id, found_item_id) DO NOTHING
      RETURNING ${columns}`,
     [id, data.lostReportId, data.foundItemId, data.score, data.similarity]
+  );
+  return mapMatch(result.rows[0]);
+}
+
+
+async function markNotificationSent(id, providerId, executor = { query }) {
+  const result = await executor.query(
+    `UPDATE item_matches
+        SET notification_status = 'Sent',
+            notification_attempted_at = NOW(),
+            notification_sent_at = NOW(),
+            notification_error = NULL,
+            email_provider_id = $2,
+            updated_at = NOW()
+      WHERE id = $1
+      RETURNING ${columns}`,
+    [id, providerId || null]
+  );
+  return mapMatch(result.rows[0]);
+}
+
+async function markNotificationFailed(id, errorMessage, executor = { query }) {
+  const result = await executor.query(
+    `UPDATE item_matches
+        SET notification_status = 'Failed',
+            notification_attempted_at = NOW(),
+            notification_error = LEFT($2, 500),
+            updated_at = NOW()
+      WHERE id = $1
+      RETURNING ${columns}`,
+    [id, String(errorMessage || 'Unknown email error')]
+  );
+  return mapMatch(result.rows[0]);
+}
+
+async function markNotificationSkipped(id, reason, executor = { query }) {
+  const result = await executor.query(
+    `UPDATE item_matches
+        SET notification_status = 'Skipped',
+            notification_attempted_at = NOW(),
+            notification_error = LEFT($2, 500),
+            updated_at = NOW()
+      WHERE id = $1
+      RETURNING ${columns}`,
+    [id, String(reason || 'Notification skipped')]
   );
   return mapMatch(result.rows[0]);
 }
@@ -95,6 +146,8 @@ async function findRecentForDashboard(executor = { query }) {
        m.score,
        m.similarity,
        m.status AS match_status,
+       m.notification_status,
+       m.notification_sent_at,
        m.created_at AS match_created_at,
        lr.id AS lost_id,
        lr.reference_number,
@@ -123,6 +176,8 @@ async function findRecentForDashboard(executor = { query }) {
     score: row.score,
     similarity: row.similarity,
     status: row.match_status,
+    notificationStatus: row.notification_status,
+    notificationSentAt: row.notification_sent_at,
     createdAt: row.match_created_at,
     lostReportId: {
       id: row.lost_id,
@@ -148,6 +203,9 @@ async function findRecentForDashboard(executor = { query }) {
 
 module.exports = {
   insertCandidate,
+  markNotificationSent,
+  markNotificationFailed,
+  markNotificationSkipped,
   findById,
   updateReview,
   countActiveForLostReport,

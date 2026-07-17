@@ -22,6 +22,7 @@ CampusFind was created to improve the campus lost-and-found process by:
 - Keeping found-item records and private verification details restricted to administrators.
 - Suggesting possible matches between lost reports and found items.
 - Maintaining an audit log when an item is released.
+- Emailing report owners when a sufficiently similar found item is recorded.
 
 ## Main Features
 
@@ -57,6 +58,7 @@ CampusFind was created to improve the campus lost-and-found process by:
 | Password security | `bcryptjs` |
 | File uploads | `multer` |
 | HTTP security | `helmet`, rate limiting, request-size limits |
+| Transactional email | Resend HTTP API |
 | Hosting | Render Web Service |
 | Cloud database | Neon PostgreSQL |
 | Version control | Git and GitHub |
@@ -172,7 +174,16 @@ Text similarity uses token-based Jaccard similarity after punctuation and common
 | 45–57 | Low |
 | Below 45 | Manual review / not automatically stored |
 
-The matching score is intended to support administrator review; it does not automatically release an item.
+The matching score is intended to support administrator review; it does not automatically release an item. By default, newly created matches scoring 58 or higher trigger a possible-match email when Resend is configured. The threshold is configurable, and email failures do not roll back database records.
+
+
+## Email Notifications
+
+When an administrator records a found item, CampusFind sends one possible-match
+email for each newly created match at or above `MATCH_EMAIL_THRESHOLD`. Delivery
+results are stored on the `item_matches` row. Messages deliberately omit private
+verification notes and other sensitive identifiers. See
+[`EMAIL_NOTIFICATIONS.md`](EMAIL_NOTIFICATIONS.md) for setup and testing steps.
 
 ## API Overview
 
@@ -257,6 +268,13 @@ PG_POOL_MAX=10
 JWT_SECRET=replace-with-a-random-value-at-least-32-characters
 JWT_EXPIRES_IN=7d
 
+EMAIL_NOTIFICATIONS_ENABLED=true
+RESEND_API_KEY=re_your_private_api_key
+EMAIL_FROM="CampusFind <notifications@your-verified-domain.example>"
+EMAIL_REPLY_TO=your-contact-address@example.com
+APP_URL=http://localhost:3000
+MATCH_EMAIL_THRESHOLD=58
+
 ADMIN_NAME=CampusFind Administrator
 ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=replace-with-a-password-of-at-least-12-characters
@@ -328,6 +346,12 @@ PGSSLMODE=require
 PG_POOL_MAX=10
 JWT_SECRET=<private random value of at least 32 characters>
 JWT_EXPIRES_IN=7d
+EMAIL_NOTIFICATIONS_ENABLED=true
+RESEND_API_KEY=<private Resend API key>
+EMAIL_FROM=<sender at a verified domain>
+EMAIL_REPLY_TO=<reply address>
+APP_URL=https://campusfind-zitd.onrender.com
+MATCH_EMAIL_THRESHOLD=58
 ```
 
 `PORT` is not added manually because Render supplies it automatically.
