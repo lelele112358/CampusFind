@@ -141,6 +141,10 @@ matchList?.addEventListener('click', async (event) => {
       const confirmed = window.confirm('Release this item? Do this only after ownership is verified in person.');
       if (!confirmed) return;
       await postJson(`/release/${id}`, { notes: 'Released after in-person ownership verification.' });
+
+      // Remove the released match immediately. The database records and
+      // seven-day release audit entry remain available on the server.
+      button.closest('.match-item')?.remove();
     }
     await loadDashboard();
   } catch (error) {

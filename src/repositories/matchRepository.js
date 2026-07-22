@@ -166,6 +166,8 @@ async function findRecentForDashboard(executor = { query }) {
      JOIN lost_reports AS lr ON lr.id = m.lost_report_id
      JOIN found_items AS fi ON fi.id = m.found_item_id
      WHERE m.status IN ('Pending Review', 'Confirmed')
+       AND fi.status <> 'Released'
+       AND lr.status <> 'Resolved'
      ORDER BY m.score DESC, m.created_at DESC
      LIMIT 12`
   );

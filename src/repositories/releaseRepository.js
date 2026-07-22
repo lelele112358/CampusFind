@@ -44,8 +44,9 @@ async function findRecent(executor = { query }) {
      FROM release_logs AS r
      JOIN lost_reports AS lr ON lr.id = r.lost_report_id
      JOIN found_items AS fi ON fi.id = r.found_item_id
+     WHERE r.release_date >= NOW() - INTERVAL '7 days'
      ORDER BY r.release_date DESC
-     LIMIT 5`
+     LIMIT 20`
   );
 
   return result.rows.map((row) => ({
